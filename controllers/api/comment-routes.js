@@ -12,15 +12,17 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    if(req.session) {
     Comment.create({
         body: req.body.body,
-        user_id: req.body.user_id,
+        user_id: req.session.user_id,
         post_id: req.body.post_id
       })
         .then(dbCommentData => res.json(dbCommentData))
         .catch(err => {
           res.status(400).json(err);
         });
+    }
 });
 
 router.delete('/:id', (req, res) => {
